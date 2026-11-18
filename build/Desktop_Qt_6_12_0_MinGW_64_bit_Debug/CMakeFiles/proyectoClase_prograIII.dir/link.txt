@@ -1,0 +1,3 @@
+C:\Users\cuent\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f CMakeFiles\proyectoClase_prograIII.dir/objects.a
+C:\Users\cuent\Qt\Tools\mingw1310_64\bin\ar.exe qc CMakeFiles\proyectoClase_prograIII.dir/objects.a @CMakeFiles\proyectoClase_prograIII.dir\objects1.rsp
+C:\Users\cuent\Qt\Tools\mingw1310_64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\proyectoClase_prograIII.dir/objects.a -Wl,--no-whole-archive -o proyectoClase_prograIII.exe -Wl,--out-implib,libproyectoClase_prograIII.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\proyectoClase_prograIII.dir\linkLibs.rsp
