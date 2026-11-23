@@ -9,9 +9,6 @@ class QGraphicsScene;
 class QGraphicsRectItem;
 class QTimer;
 
-// Vista del tablero (Persona B): dibuja la matriz CeldaMapa** con rectangulos
-// y mueve al jugador celda por celda con el teclado y un QTimer.
-// No es duena de la matriz: solo la lee (la duena sera MapaBomberman/JuegoEngine).
 class VistaJuego : public QGraphicsView
 {
     Q_OBJECT
@@ -23,17 +20,14 @@ public:
     VistaJuego(const VistaJuego &) = delete;
     VistaJuego &operator=(const VistaJuego &) = delete;
 
-    // Dibuja la matriz completa y coloca al jugador en (filaJugador, colJugador).
     void cargarMapa(CeldaMapa **mapa, int filas, int columnas,
                     int filaJugador = 1, int colJugador = 1);
 
-    // Vuelve a pintar una sola celda (por ejemplo cuando se destruye un bloque).
     void actualizarCelda(int fila, int columna);
 
     int filaJugador() const { return m_filaJugador; }
     int columnaJugador() const { return m_colJugador; }
 
-    // Celdas por segundo (el power-up de velocidad lo podra subir).
     void setVelocidad(double celdasPorSegundo);
 
 protected:
@@ -50,7 +44,6 @@ private:
     static Direccion direccionDeTecla(int tecla);
     static QColor colorDe(const CeldaMapa &celda);
 
-    // TEMPORAL: cuando exista MapaBomberman se reemplaza por mapa->esTransitable(f, c).
     bool esTransitable(int fila, int columna) const;
 
     void liberarItems();
@@ -63,19 +56,17 @@ private:
     int m_filas = 0;
     int m_columnas = 0;
 
-    // Matriz paralela de punteros a los rectangulos dibujados, para poder
-    // recolorearlos o borrarlos despues sin recorrer la escena.
     QGraphicsRectItem ***m_items = nullptr;
 
     QGraphicsRectItem *m_jugador = nullptr;
     int m_filaJugador = 0;
     int m_colJugador = 0;
 
-    Direccion m_teclaActual = Ninguna;   // tecla mantenida mas reciente
-    Direccion m_pasoActual = Ninguna;    // paso en curso (animacion)
-    double m_progreso = 0.0;             // 0..1 dentro del paso actual
-    double m_velocidad = 4.0;            // celdas por segundo
-    QElapsedTimer m_reloj;               // mide el tiempo real entre ticks
+    Direccion m_teclaActual = Ninguna;
+    Direccion m_pasoActual = Ninguna;
+    double m_progreso = 0.0;
+    double m_velocidad = 4.0;
+    QElapsedTimer m_reloj;
 };
 
-#endif // VISTAJUEGO_H
+#endif

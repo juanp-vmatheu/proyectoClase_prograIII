@@ -7,7 +7,6 @@ VentanaJuego::VentanaJuego(QWidget *parent)
     : QMainWindow(parent),
       m_vista(new VistaJuego(this))
 {
-    // TEMPORAL: hasta que exista MapaBomberman::generarNivel
     m_mapa = MapaTemporal::crear(FILAS, COLUMNAS, 30);
     MapaTemporal::imprimir(m_mapa, FILAS, COLUMNAS);
 
@@ -22,8 +21,6 @@ VentanaJuego::VentanaJuego(QWidget *parent)
 
 VentanaJuego::~VentanaJuego()
 {
-    // m_vista tiene a "this" como padre: Qt la libera sola.
-    // La vista solo lee la matriz durante el juego, no al destruirse.
     MapaTemporal::liberar(m_mapa, FILAS);
 }
 

@@ -5,7 +5,6 @@ project(proyectoClase_prograIII VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# moc, rcc y uic automáticos (necesarios para Q_OBJECT y recursos.qrc)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -29,7 +28,6 @@ target_link_libraries(proyectoClase_prograIII PRIVATE
     Qt6::Multimedia
 )
 
-# En Windows: aplicación gráfica, sin consola negra de fondo
 set_target_properties(proyectoClase_prograIII PROPERTIES
     WIN32_EXECUTABLE TRUE
 )

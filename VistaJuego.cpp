@@ -7,7 +7,7 @@
 #include <QPen>
 #include <QTimer>
 
-static const int MS_POR_TICK = 16;   // ~60 cuadros por segundo
+static const int MS_POR_TICK = 16;
 
 VistaJuego::VistaJuego(QWidget *parent)
     : QGraphicsView(parent),
@@ -19,7 +19,7 @@ VistaJuego::VistaJuego(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setRenderHint(QPainter::Antialiasing, false);
-    setFocusPolicy(Qt::StrongFocus);   // sin foco no llegan los keyPressEvent
+    setFocusPolicy(Qt::StrongFocus);
 
     m_timer->setInterval(MS_POR_TICK);
     connect(m_timer, &QTimer::timeout, this, &VistaJuego::tickMovimiento);
@@ -29,7 +29,6 @@ VistaJuego::~VistaJuego()
 {
     m_timer->stop();
     liberarItems();
-    // Los QGraphicsItem los borra la escena (hija de esta vista).
 }
 
 void VistaJuego::liberarItems()
@@ -37,7 +36,7 @@ void VistaJuego::liberarItems()
     if (!m_items)
         return;
     for (int f = 0; f < m_filas; ++f)
-        delete[] m_items[f];   // solo el arreglo de punteros; los items los borra la escena
+        delete[] m_items[f];
     delete[] m_items;
     m_items = nullptr;
 }
@@ -50,14 +49,14 @@ QColor VistaJuego::colorDe(const CeldaMapa &celda)
     case TipoCelda::Reforzado:    return QColor(120, 70, 40);
     case TipoCelda::Vacio:        break;
     }
-    return QColor(60, 140, 70);   // pasto
+    return QColor(60, 140, 70);
 }
 
 void VistaJuego::cargarMapa(CeldaMapa **mapa, int filas, int columnas,
                             int filaJugador, int colJugador)
 {
     m_timer->stop();
-    m_escena->clear();       // borra items viejos (incluido el jugador)
+    m_escena->clear();
     m_jugador = nullptr;
     liberarItems();
 
@@ -134,7 +133,7 @@ void VistaJuego::keyPressEvent(QKeyEvent *event)
         QGraphicsView::keyPressEvent(event);
         return;
     }
-    if (event->isAutoRepeat())   // mantener la tecla ya lo maneja el timer
+    if (event->isAutoRepeat())
         return;
     m_teclaActual = d;
     if (m_pasoActual == Ninguna && intentarIniciarPaso()) {
@@ -154,11 +153,10 @@ void VistaJuego::keyReleaseEvent(QKeyEvent *event)
 
 void VistaJuego::focusOutEvent(QFocusEvent *event)
 {
-    m_teclaActual = Ninguna;   // evita que el jugador siga caminando solo
+    m_teclaActual = Ninguna;
     QGraphicsView::focusOutEvent(event);
 }
 
-// Empieza un paso hacia la celda vecina si la tecla mantenida lo permite.
 bool VistaJuego::intentarIniciarPaso()
 {
     if (m_teclaActual == Ninguna || !m_jugador)
@@ -194,11 +192,8 @@ void VistaJuego::tickMovimiento()
     case Ninguna:   break;
     }
 
-    // Avanza segun el tiempo real transcurrido, asi la velocidad no depende
-    // de que el QTimer llegue puntual.
     m_progreso += m_velocidad * m_reloj.restart() / 1000.0;
     if (m_progreso >= 1.0) {
-        // Llego a la celda destino: ahi cambia la posicion logica.
         m_filaJugador += df;
         m_colJugador += dc;
         m_jugador->setPos(aPixel(m_colJugador), aPixel(m_filaJugador));

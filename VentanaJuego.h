@@ -8,14 +8,11 @@
 class QGraphicsScene;
 class VistaJuego;
 
-// Ventana principal del juego (Persona B).
-// Su widget central es VistaJuego, que dibuja el mapa y mueve al jugador.
 class VentanaJuego : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    // Nivel 1: matriz de 11 filas x 13 columnas
     static const int FILAS = 11;
     static const int COLUMNAS = 13;
 
@@ -30,8 +27,7 @@ public:
 private:
     VistaJuego *m_vista;
 
-    // TEMPORAL: la matriz la tendra MapaBomberman (dentro de JuegoEngine).
     CeldaMapa **m_mapa = nullptr;
 };
 
-#endif // VENTANAJUEGO_H
+#endif

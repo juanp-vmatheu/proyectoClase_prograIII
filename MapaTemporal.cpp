@@ -5,11 +5,8 @@
 #include <QString>
 
 namespace MapaTemporal {
-
 static bool esZonaAparicion(int f, int c)
 {
-    // El jugador aparece en (1,1); dejamos libres sus dos vecinos para que
-    // pueda poner la primera bomba y escapar.
     return (f == 1 && c == 1) || (f == 1 && c == 2) || (f == 2 && c == 1);
 }
 
