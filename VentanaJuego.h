@@ -3,33 +3,35 @@
 
 #include <QMainWindow>
 
-class QGraphicsView;
+#include "Tipos.h"
+
 class QGraphicsScene;
+class VistaJuego;
 
 // Ventana principal del juego (Persona B).
-// Contiene una QGraphicsView que muestra la QGraphicsScene donde
-// se dibujaran el mapa, el jugador, las bombas y los enemigos.
+// Su widget central es VistaJuego, que dibuja el mapa y mueve al jugador.
 class VentanaJuego : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    // Tamaño del tablero en casillas y tamaño de cada casilla en píxeles
-    static const int COLUMNAS = 15;
-    static const int FILAS = 13;
-    static const int TAM_CASILLA = 48;
+    // Nivel 1: matriz de 11 filas x 13 columnas
+    static const int FILAS = 11;
+    static const int COLUMNAS = 13;
 
     explicit VentanaJuego(QWidget *parent = nullptr);
     ~VentanaJuego() override;
 
-    QGraphicsScene *escena() const { return m_escena; }
+    VentanaJuego(const VentanaJuego &) = delete;
+    VentanaJuego &operator=(const VentanaJuego &) = delete;
+
+    QGraphicsScene *escena() const;
 
 private:
-    void configurarEscena();
-    void configurarVista();
+    VistaJuego *m_vista;
 
-    QGraphicsScene *m_escena;
-    QGraphicsView *m_vista;
+    // TEMPORAL: la matriz la tendra MapaBomberman (dentro de JuegoEngine).
+    CeldaMapa **m_mapa = nullptr;
 };
 
 #endif // VENTANAJUEGO_H

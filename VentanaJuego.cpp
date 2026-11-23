@@ -1,51 +1,33 @@
 #include "VentanaJuego.h"
 
-#include <QBrush>
-#include <QColor>
-#include <QGraphicsScene>
-#include <QGraphicsView>
+#include "MapaTemporal.h"
+#include "VistaJuego.h"
 
 VentanaJuego::VentanaJuego(QWidget *parent)
     : QMainWindow(parent),
-      m_escena(new QGraphicsScene(this)),
-      m_vista(new QGraphicsView(this))
+      m_vista(new VistaJuego(this))
 {
-    configurarEscena();
-    configurarVista();
+    // TEMPORAL: hasta que exista MapaBomberman::generarNivel
+    m_mapa = MapaTemporal::crear(FILAS, COLUMNAS, 30);
+    MapaTemporal::imprimir(m_mapa, FILAS, COLUMNAS);
+
+    m_vista->cargarMapa(m_mapa, FILAS, COLUMNAS, 1, 1);
 
     setCentralWidget(m_vista);
     setWindowTitle("Bomberman - Programacion III");
+    adjustSize();
+    setFixedSize(sizeHint());
+    m_vista->setFocus();
 }
 
 VentanaJuego::~VentanaJuego()
 {
-    // m_escena y m_vista tienen a "this" como padre: Qt los libera solo.
+    // m_vista tiene a "this" como padre: Qt la libera sola.
+    // La vista solo lee la matriz durante el juego, no al destruirse.
+    MapaTemporal::liberar(m_mapa, FILAS);
 }
 
-void VentanaJuego::configurarEscena()
+QGraphicsScene *VentanaJuego::escena() const
 {
-    const int ancho = COLUMNAS * TAM_CASILLA;
-    const int alto = FILAS * TAM_CASILLA;
-
-    // El origen (0,0) es la esquina superior izquierda del tablero
-    m_escena->setSceneRect(0, 0, ancho, alto);
-    m_escena->setBackgroundBrush(QBrush(QColor(34, 139, 34))); // pasto verde
-}
-
-void VentanaJuego::configurarVista()
-{
-    m_vista->setScene(m_escena);
-    m_vista->setRenderHint(QPainter::Antialiasing, false);
-    m_vista->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_vista->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_vista->setFrameShape(QFrame::NoFrame);
-
-    // La vista no debe robar el teclado: las teclas las maneja la ventana
-    m_vista->setFocusPolicy(Qt::NoFocus);
-
-    // Ventana del tamaño exacto del tablero
-    m_vista->setFixedSize(static_cast<int>(m_escena->width()),
-                          static_cast<int>(m_escena->height()));
-    adjustSize();
-    setFixedSize(sizeHint());
+    return m_vista->scene();
 }

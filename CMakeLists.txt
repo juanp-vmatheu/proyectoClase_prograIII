@@ -16,6 +16,11 @@ add_executable(proyectoClase_prograIII
     main.cpp
     VentanaJuego.h
     VentanaJuego.cpp
+    VistaJuego.h
+    VistaJuego.cpp
+    MapaTemporal.h
+    MapaTemporal.cpp
+    Tipos.h
     recursos.qrc
 )
 
