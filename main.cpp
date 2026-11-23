@@ -1,9 +1,13 @@
-#include <iostream>
+#include <QApplication>
 
-using namespace std;
+#include "VentanaJuego.h"
 
-int main()
+int main(int argc, char *argv[])
 {
-    cout << "Hello World!" << endl;
-    return 0;
+    QApplication app(argc, argv);
+
+    VentanaJuego ventana;
+    ventana.show();
+
+    return app.exec();
 }

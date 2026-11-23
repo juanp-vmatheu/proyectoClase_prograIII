@@ -1,11 +1,33 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(proyectoClase_prograIII LANGUAGES CXX)
+project(proyectoClase_prograIII VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(proyectoClase_prograIII main.cpp)
+# moc, rcc y uic automáticos (necesarios para Q_OBJECT y recursos.qrc)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia)
+
+add_executable(proyectoClase_prograIII
+    main.cpp
+    VentanaJuego.h
+    VentanaJuego.cpp
+    recursos.qrc
+)
+
+target_link_libraries(proyectoClase_prograIII PRIVATE
+    Qt6::Widgets
+    Qt6::Multimedia
+)
+
+# En Windows: aplicación gráfica, sin consola negra de fondo
+set_target_properties(proyectoClase_prograIII PROPERTIES
+    WIN32_EXECUTABLE TRUE
+)
 
 include(GNUInstallDirs)
 install(TARGETS proyectoClase_prograIII

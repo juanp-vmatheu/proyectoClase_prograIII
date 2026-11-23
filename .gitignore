@@ -1,0 +1,23 @@
+# Carpetas de compilación (Qt Creator / CMake)
+build/
+build-*/
+cmake-build-*/
+out/
+
+# Configuración local de Qt Creator
+.qtcreator/
+CMakeLists.txt.user*
+*.pro.user*
+
+# Binarios y objetos
+*.exe
+*.o
+*.obj
+*.dll
+*.a
+
+# Archivos del sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

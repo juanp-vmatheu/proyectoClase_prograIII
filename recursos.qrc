@@ -1,0 +1,11 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <!-- Sprites del juego: se usan como ":/sprites/archivo.png" -->
+    <qresource prefix="/sprites">
+        <file alias="LEEME.txt">assets/sprites/LEEME.txt</file>
+    </qresource>
+    <!-- Sonidos: se usan como "qrc:/sonidos/archivo.wav" con QSoundEffect -->
+    <qresource prefix="/sonidos">
+        <file alias="LEEME.txt">assets/sonidos/LEEME.txt</file>
+    </qresource>
+</RCC>
