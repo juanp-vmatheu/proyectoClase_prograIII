@@ -4,6 +4,7 @@
 #include <QElapsedTimer>
 #include <QGraphicsView>
 #include "Tipos.h"
+#include "MapaTemporal.h"
 
 class QGraphicsScene;
 class QGraphicsRectItem;
@@ -20,8 +21,7 @@ public:
     VistaJuego(const VistaJuego &) = delete;
     VistaJuego &operator=(const VistaJuego &) = delete;
 
-    void cargarMapa(CeldaMapa **mapa, int filas, int columnas,
-                    int filaJugador = 1, int colJugador = 1);
+    void cargarMapa(MapaBomberman *mapa, int filaJugador = 1, int colJugador = 1);
 
     void actualizarCelda(int fila, int columna);
 
@@ -44,15 +44,14 @@ private:
     static Direccion direccionDeTecla(int tecla);
     static QColor colorDe(const CeldaMapa &celda);
 
-    bool esTransitable(int fila, int columna) const;
-
     void liberarItems();
+    bool esTransitable(int fila, int columna) const;
     bool intentarIniciarPaso();
 
     QGraphicsScene *m_escena;
     QTimer *m_timer;
 
-    CeldaMapa **m_mapa = nullptr;
+    MapaBomberman *m_mapa = nullptr;
     int m_filas = 0;
     int m_columnas = 0;
 

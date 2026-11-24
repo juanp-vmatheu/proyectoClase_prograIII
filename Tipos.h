@@ -3,7 +3,13 @@
 
 constexpr int TAM_CELDA = 48;
 
-inline int aPixel(int indice) { return indice * TAM_CELDA; }
+inline int aPixel(int indice) {
+    return indice * TAM_CELDA; }
+
+enum class ResultadoDaño { noDañable,
+                            Dañado,
+                            Destruido };
+
 
 enum class TipoCelda {
     Vacio,
@@ -19,6 +25,21 @@ enum class Contenido {
     PowerUpVelocidad,
     Moneda,
     Portal
+};
+
+struct Posicion {
+    int filas;
+    int columnas;
+};
+
+//struct necesario para cnfigNvel
+struct ParametrosTerreno {
+    int porcentajeDestructibles;
+    int porcentajeReforzado;
+    int powerUpsFlama;
+    int powerUpsBomba;
+    int powerUpsVelocidad;
+    int monedas;
 };
 
 struct CeldaMapa {

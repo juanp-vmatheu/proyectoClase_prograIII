@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QKeyEvent>
 #include <QPen>
+#include "MapaTemporal.h"      // en lugar de "Tipos.h"
 #include <QTimer>
 
 static const int MS_POR_TICK = 16;
@@ -52,8 +53,7 @@ QColor VistaJuego::colorDe(const CeldaMapa &celda)
     return QColor(60, 140, 70);
 }
 
-void VistaJuego::cargarMapa(CeldaMapa **mapa, int filas, int columnas,
-                            int filaJugador, int colJugador)
+void VistaJuego::cargarMapa(MapaBomberman *mapa, int filaJugador, int colJugador)
 {
     m_timer->stop();
     m_escena->clear();
@@ -61,18 +61,20 @@ void VistaJuego::cargarMapa(CeldaMapa **mapa, int filas, int columnas,
     liberarItems();
 
     m_mapa = mapa;
-    m_filas = filas;
-    m_columnas = columnas;
-    m_escena->setSceneRect(0, 0, aPixel(columnas), aPixel(filas));
+    if (!m_mapa) return;
 
-    m_items = new QGraphicsRectItem **[filas];
-    for (int f = 0; f < filas; ++f) {
-        m_items[f] = new QGraphicsRectItem *[columnas];
-        for (int c = 0; c < columnas; ++c) {
+    m_filas = m_mapa->getFilas();
+    m_columnas = m_mapa->getColumnas();
+    m_escena->setSceneRect(0, 0, aPixel(m_columnas), aPixel(m_filas));
+
+    m_items = new QGraphicsRectItem **[m_filas];
+    for (int f = 0; f < m_filas; ++f) {
+        m_items[f] = new QGraphicsRectItem *[m_columnas];
+        for (int c = 0; c < m_columnas; ++c) {
             QGraphicsRectItem *r = m_escena->addRect(0, 0, TAM_CELDA, TAM_CELDA,
                                                      QPen(QColor(0, 0, 0, 60)));
             r->setPos(aPixel(c), aPixel(f));
-            r->setBrush(colorDe(mapa[f][c]));
+            r->setBrush(colorDe(m_mapa->celda(f, c)));     // <-- cambia
             r->setZValue(0);
             m_items[f][c] = r;
         }
@@ -90,15 +92,16 @@ void VistaJuego::cargarMapa(CeldaMapa **mapa, int filas, int columnas,
     m_teclaActual = m_pasoActual = Ninguna;
     m_progreso = 0.0;
 
-    setFixedSize(aPixel(columnas) + 2 * frameWidth(), aPixel(filas) + 2 * frameWidth());
+    setFixedSize(aPixel(m_columnas) + 2 * frameWidth(),
+                 aPixel(m_filas) + 2 * frameWidth());
     setFocus();
 }
 
 void VistaJuego::actualizarCelda(int fila, int columna)
 {
-    if (!m_items || fila < 0 || columna < 0 || fila >= m_filas || columna >= m_columnas)
+    if (!m_items || !m_mapa || !m_mapa->enLimites(fila, columna))
         return;
-    m_items[fila][columna]->setBrush(colorDe(m_mapa[fila][columna]));
+    m_items[fila][columna]->setBrush(colorDe(m_mapa->celda(fila, columna)));
 }
 
 void VistaJuego::setVelocidad(double celdasPorSegundo)
@@ -109,10 +112,7 @@ void VistaJuego::setVelocidad(double celdasPorSegundo)
 
 bool VistaJuego::esTransitable(int fila, int columna) const
 {
-    if (!m_mapa || fila < 0 || columna < 0 || fila >= m_filas || columna >= m_columnas)
-        return false;
-    const CeldaMapa &celda = m_mapa[fila][columna];
-    return celda.tipo == TipoCelda::Vacio && !celda.tieneBomba;
+    return m_mapa && m_mapa->esTransitable(fila, columna);
 }
 
 VistaJuego::Direccion VistaJuego::direccionDeTecla(int tecla)

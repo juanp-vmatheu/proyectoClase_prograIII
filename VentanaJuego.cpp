@@ -1,16 +1,16 @@
 #include "VentanaJuego.h"
-
-#include "MapaTemporal.h"
 #include "VistaJuego.h"
 
 VentanaJuego::VentanaJuego(QWidget *parent)
     : QMainWindow(parent),
-      m_vista(new VistaJuego(this))
+    m_mapa(FILAS, COLUMNAS),
+    m_vista(new VistaJuego(this))
 {
-    m_mapa = MapaTemporal::crear(FILAS, COLUMNAS, 30);
-    MapaTemporal::imprimir(m_mapa, FILAS, COLUMNAS);
+    ParametrosTerreno p = { 30, 10, 2, 2, 2, 5 };
+    m_mapa.generarNivel(p);
+    m_mapa.imprimir();
 
-    m_vista->cargarMapa(m_mapa, FILAS, COLUMNAS, 1, 1);
+    m_vista->cargarMapa(&m_mapa, 1, 1);
 
     setCentralWidget(m_vista);
     setWindowTitle("Bomberman - Programacion III");
@@ -19,10 +19,7 @@ VentanaJuego::VentanaJuego(QWidget *parent)
     m_vista->setFocus();
 }
 
-VentanaJuego::~VentanaJuego()
-{
-    MapaTemporal::liberar(m_mapa, FILAS);
-}
+VentanaJuego::~VentanaJuego()=default;
 
 QGraphicsScene *VentanaJuego::escena() const
 {

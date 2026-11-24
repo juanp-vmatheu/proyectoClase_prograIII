@@ -2,7 +2,7 @@
 #define VENTANAJUEGO_H
 
 #include <QMainWindow>
-
+#include "MapaTemporal.h"
 #include "Tipos.h"
 
 class QGraphicsScene;
@@ -25,9 +25,9 @@ public:
     QGraphicsScene *escena() const;
 
 private:
+    MapaBomberman m_mapa;
     VistaJuego *m_vista;
 
-    CeldaMapa **m_mapa = nullptr;
 };
 
 #endif
