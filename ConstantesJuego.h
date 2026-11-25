@@ -1,0 +1,7 @@
+#ifndef CONSTANTESJUEGO_H
+#define CONSTANTESJUEGO_H
+
+
+
+
+#endif // CONSTANTESJUEGO_H

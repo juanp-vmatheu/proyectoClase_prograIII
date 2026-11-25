@@ -25,8 +25,10 @@ public:
 
     void actualizarCelda(int fila, int columna);
 
-    int filaJugador() const { return m_filaJugador; }
-    int columnaJugador() const { return m_colJugador; }
+    int filaJugador() const {
+        return m_filaJugador; }
+    int columnaJugador() const {
+        return m_colJugador; }
 
     void setVelocidad(double celdasPorSegundo);
 

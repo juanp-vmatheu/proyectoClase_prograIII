@@ -47,7 +47,8 @@ void MapaBomberman::liberar(){
 
 void MapaBomberman::generarNivel(const ParametrosTerreno &p)
 {
-    if (mapa == nullptr) return;
+    if (mapa == nullptr){
+        return;}
 
     vaciarCelda();
     colocarCeldasFijas();
@@ -57,11 +58,12 @@ void MapaBomberman::generarNivel(const ParametrosTerreno &p)
     colocarBloquesDestructibles(destructibles);
     marcarCeldasReforzadas(destructibles * p.porcentajeReforzado / 100);
 
+    colocarContenido(Contenido::Portal, 1);
     colocarContenido(Contenido::PowerUpFlama, p.powerUpsFlama);
     colocarContenido(Contenido::PowerUpBomba, p.powerUpsBomba);
     colocarContenido(Contenido::PowerUpVelocidad, p.powerUpsVelocidad);
     colocarContenido(Contenido::Moneda, p.monedas);
-    colocarContenido(Contenido::Portal, 1);
+
 }
 void MapaBomberman::vaciarCelda(){//coloca ceeldas con valores por defecto
     if(mapa==nullptr){
@@ -94,9 +96,13 @@ void MapaBomberman::reservarZonaAparicion(){
     if(mapa==nullptr){
         return;
     }
-    mapa[1][1].tipo=TipoCelda::Vacio;
-    mapa[1][2].tipo=TipoCelda::Vacio;
-    mapa[2][1].tipo=TipoCelda::Vacio;
+    for(int i=0; i<filas;++i){
+        for(int j=0; j<columnas;++j){
+            if (esZonaAparicion(i, j)) {
+                mapa[i][j].tipo = TipoCelda::Vacio;
+            }
+        }
+    }
 }
 
 int MapaBomberman::contarCeldasDisponibles()const{
@@ -231,9 +237,18 @@ bool MapaBomberman::esDestructible(int f, int c) const
     return t == TipoCelda::Destructible || t == TipoCelda::Reforzado;
 }
 
+Posicion MapaBomberman::posicionAparicion() const
+{
+    Posicion p = {1, 1};
+    return p;
+}
+
 bool MapaBomberman::esZonaAparicion(int f, int c) const
 {
-    return (f == 1 && c == 1) || (f == 1 && c == 2) || (f == 2 && c == 1);
+    Posicion a = posicionAparicion();
+    return (f == a.filas && c == a.columnas)
+           || (f == a.filas && c == a.columnas + 1)
+           || (f == a.filas + 1 && c == a.columnas);
 }
 
 const CeldaMapa &MapaBomberman::celda(int f, int c) const
@@ -245,6 +260,7 @@ Posicion MapaBomberman::celdaLibreAleatoria() const
 {
     return elegirCelda(TipoCelda::Vacio, false);
 }
+
 //----Getters
 int MapaBomberman::getFilas() const {
     return filas; }
@@ -309,7 +325,12 @@ Contenido MapaBomberman::recogerContenido(int f, int c)
     if (!enLimites(f, c) || mapa[f][c].tipo != TipoCelda::Vacio) {
         return Contenido::Nada;
     }
+
     Contenido recogido = mapa[f][c].contenido;
+    if(recogido==Contenido::Portal){
+        return recogido;
+    }
+
     mapa[f][c].contenido = Contenido::Nada;
     return recogido;
 }
@@ -321,10 +342,22 @@ void MapaBomberman::imprimir()
         QString linea;
         for (int c = 0; c < columnas; ++c) {
             switch (mapa[f][c].tipo) {
-            case TipoCelda::MuroFijo:     linea += '#'; break;
-            case TipoCelda::Destructible: linea += '+'; break;
-            case TipoCelda::Reforzado:    linea += 'R'; break;
-            case TipoCelda::Vacio:        linea += '.'; break;
+            case TipoCelda::MuroFijo:    {
+                linea += '#';
+                break;
+            }
+            case TipoCelda::Destructible:{
+                linea += '+';
+                break;
+            }
+            case TipoCelda::Reforzado:   {
+                linea += 'R';
+                break;
+            }
+            case TipoCelda::Vacio: {
+                linea += '.';
+                break;
+            }
             }
         }
         qDebug().noquote() << linea;

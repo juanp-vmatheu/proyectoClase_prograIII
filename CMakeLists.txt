@@ -21,6 +21,12 @@ add_executable(proyectoClase_prograIII
     MapaTemporal.cpp
     Tipos.h
     recursos.qrc
+    Jugador.h
+
+    ConfigNivel.h
+    JuegoEngine.cpp
+    JuegoEngine.h
+    Jugador.cpp
 )
 
 target_link_libraries(proyectoClase_prograIII PRIVATE

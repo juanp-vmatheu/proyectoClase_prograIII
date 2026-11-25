@@ -10,7 +10,7 @@ VentanaJuego::VentanaJuego(QWidget *parent)
     m_mapa.generarNivel(p);
     m_mapa.imprimir();
 
-    m_vista->cargarMapa(&m_mapa, 1, 1);
+    m_vista->cargarMapa(&m_mapa, INICIO_JUGADOR.filas, INICIO_JUGADOR.columnas);
 
     setCentralWidget(m_vista);
     setWindowTitle("Bomberman - Programacion III");

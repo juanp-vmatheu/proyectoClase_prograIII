@@ -33,7 +33,7 @@ public:
     Posicion celdaLibreAleatoria()const;//devuelve celdas para ubicar enemigos
     int getFilas() const;
     int getColumnas()const;
-
+    Posicion posicionAparicion() const;
     //funciones que modifican el mapa:
     ResultadoDaño dañarBloque(int f, int c);
     bool ponerBomba(int f, int c);

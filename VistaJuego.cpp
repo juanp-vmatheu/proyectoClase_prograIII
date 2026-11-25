@@ -61,7 +61,10 @@ void VistaJuego::cargarMapa(MapaBomberman *mapa, int filaJugador, int colJugador
     liberarItems();
 
     m_mapa = mapa;
-    if (!m_mapa) return;
+    if (!m_mapa){
+
+        return;
+    }
 
     m_filas = m_mapa->getFilas();
     m_columnas = m_mapa->getColumnas();
@@ -74,7 +77,7 @@ void VistaJuego::cargarMapa(MapaBomberman *mapa, int filaJugador, int colJugador
             QGraphicsRectItem *r = m_escena->addRect(0, 0, TAM_CELDA, TAM_CELDA,
                                                      QPen(QColor(0, 0, 0, 60)));
             r->setPos(aPixel(c), aPixel(f));
-            r->setBrush(colorDe(m_mapa->celda(f, c)));     // <-- cambia
+            r->setBrush(colorDe(m_mapa->celda(f, c)));
             r->setZValue(0);
             m_items[f][c] = r;
         }
