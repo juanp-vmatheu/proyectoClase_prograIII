@@ -1,0 +1,34 @@
+#include "Jugador.h"
+
+
+void Jugador::Jugador(){
+    m_vidas=VIDAS_INICIALES;
+    m_monedas=0;
+    m_bombasMaximas=BOMBAS_INICIALES;
+    m_alcanceLlama=ALCANCE_INICIAL;
+    m_velocidad=VELOCIDAD_INICIAL;
+    m_tiempoInvulnerable=0.0;
+    
+}
+
+void Jugador::reiniciar(){
+    m_vidas=VIDAS_INICIALES;
+    m_monedas=0;
+    m_bombasMaximas=BOMBAS_INICIALES;
+    m_alcanceLlama=ALCANCE_INICIAL;
+    m_velocidad=VELOCIDAD_INICIAL;
+    m_tiempoInvulnerable=0.0;
+    
+}
+
+void Jugador::prepararNivel(){
+    m_tiempoInvulnerable=0.0;
+    //Bella: esto see usa porque al pasar de nivel en el modo
+    //de avance continuo se conservan los powerups obtenidos
+    //pero la inmunidad se reinicia
+}
+
+void Jugador::actualizar(double tiempoPasado){
+    m_tiempoInvulnerable
+    
+}

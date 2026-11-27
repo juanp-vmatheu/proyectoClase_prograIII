@@ -66,9 +66,8 @@ constexpr int RESISTENCIA_DESTRUCTIBLE = 1;
 constexpr int RESISTENCIA_REFORZADO = 2;
 constexpr Posicion INICIO_JUGADOR={1,1};
 
-// Jugador
-constexpr int VIDAS_INICIALES = 3;
-constexpr double VELOCIDAD_INICIAL = 4.0;
-constexpr double VELOCIDAD_TOPE = 8.0;
+
+
+
 
 #endif
