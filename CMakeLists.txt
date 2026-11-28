@@ -29,6 +29,8 @@ add_executable(proyectoClase_prograIII
     Jugador.cpp
     ColaBombas.h
     ColaBombas.cpp
+    MenuInicio.h
+    MenuInicio.cpp
 )
 
 target_link_libraries(proyectoClase_prograIII PRIVATE
