@@ -3,11 +3,13 @@
 
 #include <QElapsedTimer>
 #include <QGraphicsView>
+#include <QPixmap>
 #include "Tipos.h"
 #include "MapaTemporal.h"
 
 class QGraphicsScene;
 class QGraphicsRectItem;
+class QGraphicsPixmapItem;
 class QTimer;
 
 class VistaJuego : public QGraphicsView
@@ -32,6 +34,10 @@ public:
 
     void setVelocidad(double celdasPorSegundo);
 
+signals:
+    void pedirBomba(int fila, int columna);//se presiono espacio
+    void jugadorLlegoA(int fila, int columna);//termino un paso
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
@@ -46,6 +52,16 @@ private:
     static Direccion direccionDeTecla(int tecla);
     static QColor colorDe(const CeldaMapa &celda);
 
+    //Sprites: se recortan de las hojas de assets/sprites/zelda.
+    //Si una hoja no carga se usa el color de colorDe() como respaldo.
+    static QPixmap recortar(const QPixmap &hoja, int x, int y, int ancho, int alto,
+                            const QColor &respaldo);
+    void cargarSprites();
+    const QPixmap &spriteDe(const CeldaMapa &celda) const;
+    const QPixmap *spriteEncimaDe(const CeldaMapa &celda) const;
+    void cargarSpritesLink();
+    void actualizarSpriteJugador();
+
     void liberarItems();
     bool esTransitable(int fila, int columna) const;
     bool intentarIniciarPaso();
@@ -57,9 +73,25 @@ private:
     int m_filas = 0;
     int m_columnas = 0;
 
-    QGraphicsRectItem ***m_items = nullptr;
+    QGraphicsPixmapItem ***m_items = nullptr;   //suelo o bloque de cada celda
+    QGraphicsPixmapItem ***m_encima = nullptr;  //bomba o llama encima de la celda
 
-    QGraphicsRectItem *m_jugador = nullptr;
+    QPixmap m_spPasto;
+    QPixmap m_spMuro;
+    QPixmap m_spArbusto;
+    QPixmap m_spRoca;
+    QPixmap m_spRocaDanada;
+    QPixmap m_spBomba;
+    QPixmap m_spLlama;
+
+    //Link: 4 direcciones (arriba, abajo, izquierda, derecha) x 8 cuadros.
+    //El cuadro 0 es Link quieto, los demas son la caminata.
+    static const int CUADROS_LINK = 8;
+    QPixmap m_spLink[4][CUADROS_LINK];
+    Direccion m_mirando = Abajo;
+    double m_tiempoAnim = 0.0;
+
+    QGraphicsPixmapItem *m_jugador = nullptr;
     int m_filaJugador = 0;
     int m_colJugador = 0;
 

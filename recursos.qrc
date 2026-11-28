@@ -3,6 +3,10 @@
     <!-- Sprites del juego: se usan como ":/sprites/archivo.png" -->
     <qresource prefix="/sprites">
         <file alias="LEEME.txt">assets/sprites/LEEME.txt</file>
+        <file alias="zelda/overworld.png">assets/sprites/zelda/hoja_overworld.png</file>
+        <file alias="zelda/castillos.png">assets/sprites/zelda/hoja_castillos.png</file>
+        <file alias="zelda/link.png">assets/sprites/zelda/hoja_link.png</file>
+        <file alias="zelda/bombas.png">assets/sprites/zelda/hoja_bombas.png</file>
     </qresource>
     <!-- Sonidos: se usan como "qrc:/sonidos/archivo.wav" con QSoundEffect -->
     <qresource prefix="/sonidos">

@@ -11,8 +11,8 @@ public:
     Jugador();
 
     void reiniciar();
-    void prepaarNivel();
-    void actualizar();
+    void prepararNivel();
+    void actualizar(double tiempoPasado);
 
     bool perderVidas();
     bool estaVivo() const{
@@ -37,16 +37,16 @@ private:
     //cnstantes con las que se controlaran los valores
     //y alcances de los powerUps
 
-    constexpr int VIDAS_INICIALES = 3;
-    constexpr int VIDAS_MAXIMAS = VIDAS_INICIALES;
-    constexpr int BOMBAS_INICIALES = 1;
-    constexpr int BOMBAS_TOPE = 8;
-    constexpr int ALCANCE_INICIAL = 1;
-    constexpr int ALCANCE_TOPE = 8;
-    constexpr double VELOCIDAD_INICIAL = 4.0;
-    constexpr double VELOCIDAD_TOPE = 8.0;
-    constexpr double INCREMENTO_VELOCIDAD = 1.0;
-    constexpr double TIEMPO_INMUNIDAD = 2.0;
+    static constexpr int VIDAS_INICIALES = 3;
+    static constexpr int VIDAS_MAXIMAS = VIDAS_INICIALES;
+    static constexpr int BOMBAS_INICIALES = 1;
+    static constexpr int BOMBAS_TOPE = 8;
+    static constexpr int ALCANCE_INICIAL = 1;
+    static constexpr int ALCANCE_TOPE = 8;
+    static constexpr double VELOCIDAD_INICIAL = 4.0;
+    static constexpr double VELOCIDAD_TOPE = 8.0;
+    static constexpr double INCREMENTO_VELOCIDAD = 1.0;
+    static constexpr double TIEMPO_INMUNIDAD = 2.0;
 
 
     int m_vidas;
@@ -55,6 +55,6 @@ private:
     int m_alcanceLlama;
     double m_velocidad;
     double m_tiempoInvulnerable;
-}
+};
 
 #endif // JUGADOR_H
